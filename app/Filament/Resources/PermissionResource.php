@@ -2,16 +2,21 @@
 
 namespace App\Filament\Resources;
 
+use Illuminate\Support\Facades\DB;
 use App\Filament\Resources\PermissionResource\Pages;
-use App\Filament\Resources\PermissionResource\RelationManagers;
 use App\Models\Permission;
 use Filament\Forms;
+use Filament\Notifications\Notification;
 use Filament\Resources\Form;
+use Filament\Notifications\Actions\Action;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Routing\Route;
 
 class PermissionResource extends Resource
 {
@@ -57,8 +62,26 @@ class PermissionResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make()
+                    ->before(function (Permission $record, DeleteAction $action) {
+                        $existsRelation =
+                            DB::table('role_has_permissions')
+                            ->where('permission_id', $record->id)
+                            ->count();
+
+                        if ($existsRelation > 0) {
+                            Notification::make()
+                                ->warning()
+                                ->title('Esse registro não pode ser excluído!')
+                                ->body('Registro possui relacionamento com perfis.')
+                                ->persistent()
+                                ->send();
+
+                            $action->halt();
+                        }
+                    }),
+
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

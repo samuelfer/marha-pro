@@ -16,4 +16,9 @@ class ManagePermissions extends ManageRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

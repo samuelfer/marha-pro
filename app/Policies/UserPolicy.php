@@ -12,7 +12,9 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('user_read');
+        // dd($user->permissions()->get());
+        // return $user->hasPermissionTo('user_list');
+        return true;
     }
 
     /**
@@ -20,7 +22,7 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return $user->hasPermissionTo('user_read');
+        return $user->hasPermissionTo('user_list');
     }
 
     /**
@@ -36,7 +38,8 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return $user->hasPermissionTo('user_edit');
+        // return $user->hasPermissionTo('user_edit');
+        return true;
     }
 
     /**

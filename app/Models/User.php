@@ -47,6 +47,7 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessFilament(): bool
     {
-        return $this->hasPermissionTo('access_admin');
+        return true;
+        // return $this->hasPermissionTo('access_admin');
     }
 }
