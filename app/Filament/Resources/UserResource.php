@@ -67,6 +67,11 @@ class UserResource extends Resource
                     ->label('Nome')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\BooleanColumn::make('is_admin')
+                    ->label('Admin')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->label('Perfil')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime('d/m/Y')->label('Criado em'),
             ])
