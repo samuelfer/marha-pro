@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Permission;
+use Spatie\Permission\Models\Permission;
 use App\Models\Role;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -15,20 +14,15 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
+        $permissions = Permission::all();
+
         Role::create([
-            'name' => 'Admins',
+            'name' => 'Super admin',
             'guard_name' => 'web',
             'created_at' => now(),
             'updated_at' => now(),
+        ])->syncPermissions([
+            $permissions
         ]);
-
-        $adminRole = Role::where('name', 'Admins')->first();
-
-        $permissions = Permission::all();
-
-
-        foreach ($permissions as $permission) {
-            DB::insert('insert into role_has_permissions (permission_id, role_id) values (?, ?)', [$permission->id, $adminRole->id]);
-        }
     }
 }
