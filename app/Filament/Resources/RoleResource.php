@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use Illuminate\Support\Facades\DB;
 use App\Filament\Resources\RoleResource\Pages;
+use App\Filament\Resources\RoleResource\RelationManagers\PermissionsRelationManager;
 use App\Models\Role;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -18,7 +19,7 @@ class RoleResource extends Resource
 {
     protected static ?string $model = Role::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-user-circle';
 
     protected static ?string $modelLabel = 'Perfil';
 
@@ -82,6 +83,11 @@ class RoleResource extends Resource
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [];
     }
 
     public static function getPages(): array
