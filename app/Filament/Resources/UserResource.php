@@ -48,6 +48,7 @@ class UserResource extends Resource
                     ->required(fn (string $context): bool => $context === 'create')
                     ->label('Senha'),
                 Forms\Components\Select::make('roles')
+                    ->label('Perfil')
                     ->multiple()
                     ->relationship(
                         'roles',
